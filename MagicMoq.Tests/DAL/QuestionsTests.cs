@@ -144,6 +144,28 @@ namespace MagicMoq.Tests.DAL
         }
 
         [TestMethod]
+        public void EnsureThisReturnsTruev2()
+        {
+            // Arrange
+            Mock<Answers> mock_answers = new Mock<Answers>();
+            mock_answers.Setup(a => a.False()).Returns(false);
+            // Add code that mocks the "True" method response
+
+            Questions questions = new Questions(mock_answers.Object);
+
+            // Act
+            bool expected_result = true;
+            bool actual_result = questions.ReturnTruev2();
+
+            // Assert
+            Assert.AreEqual(expected_result, actual_result);
+        }
+
+
+
+
+
+        [TestMethod]
         public void EnsureThisReturnsFalse()
         {
             // Arrange
@@ -201,6 +223,7 @@ namespace MagicMoq.Tests.DAL
         {
             // Arrange
             Mock<Answers> mock_answers = new Mock<Answers>();
+            //order does not matter
             mock_answers.Setup(a => a.One()).Returns(1);
             mock_answers.Setup(a => a.Two()).Returns(2);
             mock_answers.Setup(a => a.Four()).Returns(4);
@@ -239,13 +262,15 @@ namespace MagicMoq.Tests.DAL
         public void EnsureCountToFiveReturnsListOfFiveInts()
         {
             Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
+             //"It" class - is a matcher of argument types
+            //It.Is<int>() looks like It.is<int>(i => i == 5)))
             mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> { 1, 2, 3, 4, 5 });
-
+            //Less restrictive -  mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> { 1, 2, 3, 4, 5 });
             Questions questions = new Questions(mock_answers.Object);
 
             // Act
-            var expected_result = new List<int> { 1, 2, 3, 4, 5 };
-            int actual_result = questions.CountToFive(5);
+            List<int> expected_result = new List<int> { 1, 2, 3, 4, 5 };
+            List<int> actual_result = questions.CountToFive();
 
             // Assert
             Assert.AreEqual(expected_result, actual_result);
@@ -255,13 +280,14 @@ namespace MagicMoq.Tests.DAL
         public void EnsureFirstThreeEvenIntsReturnsListOfThreeEvenInts()
         {
             Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
+            //"i" needs to be large enought so you get a list that contains 3 even numbers
             mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> {1, 2, 3, 4, 5, 6 });
 
             Questions questions = new Questions(mock_answers.Object);
 
             // Act
-            var expected_result = new List<int> { 2, 4, 6};
-            int actual_result = questions.CountToFive(6);
+            List<int> expected_result = new List<int> { 2, 4, 6};
+            List<int> actual_result = questions.FirstThreeEvenInts();
 
             // Assert
             Assert.AreEqual(expected_result, actual_result);
@@ -271,13 +297,13 @@ namespace MagicMoq.Tests.DAL
         public void EnsureFirstThreeOddIntsReturnsListOfThreeOddInts()
         {
             Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
-            mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> { 1, 2, 3, 4, 5, 6 });
+            mock_answers.Setup(a => a.ListOfNInts(It.Is<int>(i => i == 10))).Returns(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
 
             Questions questions = new Questions(mock_answers.Object);
 
             // Act
-            var expected_result = new List<int> { 1, 3, 5 };
-            int actual_result = questions.FirstThreeOddInts(5);
+            List<int> expected_result = new List<int> { 1, 3, 5 };
+            List<int> actual_result = questions.FirstThreeOddInts();
 
             // Assert
             Assert.AreEqual(expected_result, actual_result);

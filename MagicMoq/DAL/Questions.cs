@@ -86,6 +86,11 @@ namespace MagicMoq.DAL
             return Wand.True();
         }
 
+        public bool ReturnTruev2()
+        {
+            return !Wand.False();
+        }
+
         public string SayHelloWorld()
         {
             return Wand.HelloWorld();
@@ -98,13 +103,38 @@ namespace MagicMoq.DAL
 
         public List<int> FirstThreeEvenInts()
         {
-            return Wand.ListOfNInts(4);
+            //return Wand.ListOfNInts(6);
+            List<int> numbers = Wand.ListOfNInts(6);//Presorted
+            //use numbers.Sort() if ListOfNInts doesn't run
+            List<int> result = new List<int>();
+            foreach (var number in numbers)
+            {
+                if (number % 2 == 0)
+                {
+                    result.Add(number);
+                }
+            }
+            return result;
         }
 
         public List<int> FirstThreeOddInts()
-        {
-            return Wand.ListOfNInts(3);
-        }
+        { 
+            List<int> numbers = Wand.ListOfNInts(10); //Presorted
+            //use numbers.Sort() if ListOfNInts doesn't run
+            List<int> result = new List<int>();
+            foreach (var number in numbers)
+            {
+                if (number % 2 != 0)
+                {
+                    result.Add(number);
+                }
+                if (result.Count == 3)
+                {
+                    break;//exit loop
+                }
+            }
+            return result;//out of loop to insure the return is used
+    }
 
         public int CountToFive(int v)
         {
