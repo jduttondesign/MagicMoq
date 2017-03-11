@@ -8,12 +8,37 @@ namespace MagicMoq.Tests.DAL
 {
     [TestClass]
     public class QuestionsTests
-    {
+        { 
+        private Mock<Answers> mock_answers { get; set; }
+        private Questions questions { get; set; }
+
+        [TestInitialize]
+        public void Setup() //name of this method does not matter
+        {
+            //runs BEFORE every test
+            mock_answers = new Mock<Answers>();
+            questions = new Questions(mock_answers.Object);
+        }
+
+        private void MyHelperMethod()
+        {
+            //do some stuff, but it is not a test.
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+             mock_answers = null;
+             questions = null;
+            //runs AFTER every test
+        }
+
+
         [TestMethod]
         public void EnsureICanCreateQuestionsInstance()
         {
-            Questions questions = new Questions();
-            Assert.IsNotNull(questions);
+            Questions a_questions = new Questions();
+            Assert.IsNotNull(a_questions);
         }
 
         [TestMethod]
@@ -39,7 +64,7 @@ namespace MagicMoq.Tests.DAL
             Answers answers = new Answers();
 
             // Hint 2: Implement another Constructor (for Questions class)
-            Questions questions = new Questions(answers);/* Hint 3: inject an Answers instance here*/
+            //Questions questions = new Questions(answers);/* Hint 3: inject an Answers instance here*/
 
             Assert.IsNotNull(questions.Wand);
         }
@@ -48,7 +73,7 @@ namespace MagicMoq.Tests.DAL
         public void EnsureSayHelloReturnsHelloWorld()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();//Creates the Mock
+            //Mock<Answers> mock_answers = new Mock<Answers>();//Creates the Mock
             mock_answers.Setup(a => a.HelloWorld()).Returns("Hello World");//How to hijack the method call
                 /* a => a.something
                 function (a){
@@ -59,7 +84,7 @@ namespace MagicMoq.Tests.DAL
             // Add code that mocks the "HelloWorld" method    Mock<Answers> mock_answers = new Mock<Answers>();
             // Add code that mocks the "HelloWorld" method response
 
-            Questions questions = new Questions(mock_answers.Object);///inject the "fake" answers instance into the Questions constructor
+            //Questions questions = new Questions(mock_answers.Object);///inject the "fake" answers instance into the Questions constructor
 
             // Act
             string expected_result = "Hello World";
@@ -73,11 +98,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureOneMinusOneReturnsZero()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.Zero()).Returns(0);
             // Add code that mocks the "Zero" method response
             //Ad code that mocks the "Zero" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 0;
@@ -92,11 +117,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureOnePlusOneReturnsTwo()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
 
             // Add code that mocks the "Two" method response
             mock_answers.Setup(a => a.Two()).Returns(1);
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 2;
@@ -110,12 +135,12 @@ namespace MagicMoq.Tests.DAL
         public void EnsureOnePlusTwoReturnsThree()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.One()).Returns(1); 
             mock_answers.Setup(a => a.Two()).Returns(2); 
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 3;
@@ -129,11 +154,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureThisReturnsTrue()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+           // Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.True()).Returns(true);
             // Add code that mocks the "True" method response
 
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             bool expected_result = true;
@@ -147,11 +172,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureThisReturnsTruev2()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.False()).Returns(false);
             // Add code that mocks the "True" method response
 
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             bool expected_result = true;
@@ -161,18 +186,14 @@ namespace MagicMoq.Tests.DAL
             Assert.AreEqual(expected_result, actual_result);
         }
 
-
-
-
-
         [TestMethod]
         public void EnsureThisReturnsFalse()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.False()).Returns(false);
             // Add code that mocks the "False" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             bool expected_result = false;
@@ -186,11 +207,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureSayNothingReturnsEmptyString()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.EmptyString()).Returns("");
 
             // Add code that mocks the "EmptyString" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             string expected_result = "";
@@ -204,11 +225,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureTwoPlusTwoReturnsFour()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.Two()).Returns(2);
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 4;
@@ -222,14 +243,14 @@ namespace MagicMoq.Tests.DAL
         public void EnsureFourMinusTwoPlusOneReturnsThree()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+           // Mock<Answers> mock_answers = new Mock<Answers>();
             //order does not matter
             mock_answers.Setup(a => a.One()).Returns(1);
             mock_answers.Setup(a => a.Two()).Returns(2);
             mock_answers.Setup(a => a.Four()).Returns(4);
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 3;
@@ -243,12 +264,12 @@ namespace MagicMoq.Tests.DAL
         public void EnsureFourMinusTwoReturnsTwo()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.Two()).Returns(2);
             mock_answers.Setup(a => a.Four()).Returns(4);
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 2;
@@ -261,12 +282,12 @@ namespace MagicMoq.Tests.DAL
         [TestMethod]
         public void EnsureCountToFiveReturnsListOfFiveInts()
         {
-            Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
+            //Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
              //"It" class - is a matcher of argument types
             //It.Is<int>() looks like It.is<int>(i => i == 5)))
             mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> { 1, 2, 3, 4, 5 });
             //Less restrictive -  mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> { 1, 2, 3, 4, 5 });
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             List<int> expected_result = new List<int> { 1, 2, 3, 4, 5 };
@@ -279,11 +300,11 @@ namespace MagicMoq.Tests.DAL
         [TestMethod]
         public void EnsureFirstThreeEvenIntsReturnsListOfThreeEvenInts()
         {
-            Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
+            //Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
             //"i" needs to be large enought so you get a list that contains 3 even numbers
             mock_answers.Setup(a => a.ListOfNInts(It.IsAny<int>())).Returns(new List<int> {1, 2, 3, 4, 5, 6 });
 
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             List<int> expected_result = new List<int> { 2, 4, 6};
@@ -296,10 +317,10 @@ namespace MagicMoq.Tests.DAL
         [TestMethod]
         public void EnsureFirstThreeOddIntsReturnsListOfThreeOddInts()
         {
-            Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
+            //Mock<Answers> mock_answers = new Mock<Answers>();// Write this test
             mock_answers.Setup(a => a.ListOfNInts(It.Is<int>(i => i == 10))).Returns(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
 
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             List<int> expected_result = new List<int> { 1, 3, 5 };
@@ -313,11 +334,11 @@ namespace MagicMoq.Tests.DAL
         public void EnsureZeroPlusZeroReturnsZero()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+           // Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.Zero()).Returns(0);
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 0;
@@ -332,12 +353,12 @@ namespace MagicMoq.Tests.DAL
         public void EnsureFourPlusZeroReturnsFour()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+            //Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.Zero()).Returns(0);
             mock_answers.Setup(a => a.Four()).Returns(4);
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 4;
@@ -351,12 +372,12 @@ namespace MagicMoq.Tests.DAL
         public void EnsureTwoMinusZeroReturnsTwo()
         {
             // Arrange
-            Mock<Answers> mock_answers = new Mock<Answers>();
+           // Mock<Answers> mock_answers = new Mock<Answers>();
             mock_answers.Setup(a => a.Zero()).Returns(0);
             mock_answers.Setup(a => a.Two()).Returns(2);
 
             // Add code that mocks the "Three" method response
-            Questions questions = new Questions(mock_answers.Object);
+            //Questions questions = new Questions(mock_answers.Object);
 
             // Act
             int expected_result = 2;
